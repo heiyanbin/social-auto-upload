@@ -87,7 +87,7 @@ class DouYinVideo(object):
 
         await asyncio.sleep(1)
         await page.locator('.semi-input[placeholder="日期和时间"]').click()
-        await page.keyboard.press("Control+KeyA")
+        await page.keyboard.press("Meta+KeyA")
         await page.keyboard.type(str(publish_date_hour))
         await page.keyboard.press("Enter")
 
@@ -150,7 +150,7 @@ class DouYinVideo(object):
             titlecontainer = page.locator(".notranslate")
             await titlecontainer.click()
             await page.keyboard.press("Backspace")
-            await page.keyboard.press("Control+KeyA")
+            await page.keyboard.press("Meta+KeyA")
             await page.keyboard.press("Delete")
             await page.keyboard.type(self.title)
             await page.keyboard.press("Enter")
@@ -182,7 +182,7 @@ class DouYinVideo(object):
             douyin_logger.info(f'  [-] 正在设置商品链接...')
             await self.set_product_link(page, self.productLink, self.productTitle)
             douyin_logger.info(f'  [+] 完成设置商品链接...')
-        
+
         #上传视频封面
         await self.set_thumbnail(page, self.thumbnail_path)
 
@@ -280,7 +280,7 @@ class DouYinVideo(object):
             douyin_logger.info('  [+] 视频封面设置完成！')
             # 等待封面设置对话框关闭
             await page.wait_for_selector("div.extractFooter", state='detached')
-            
+
 
     async def set_location(self, page: Page, location: str = ""):
         if not location:
@@ -313,7 +313,7 @@ class DouYinVideo(object):
         if 'disabled' not in await finish_button.get_attribute('class'):
             await finish_button.click()
             douyin_logger.debug("[+] 成功点击'完成编辑'按钮")
-            
+
             # 等待对话框关闭
             await page.wait_for_selector('.semi-modal-content', state='hidden', timeout=5000)
             return True
@@ -327,10 +327,10 @@ class DouYinVideo(object):
                 # 点击右上角的关闭按钮
                 close_button = page.locator('.semi-modal-close')
                 await close_button.click()
-            
+
             await page.wait_for_selector('.semi-modal-content', state='hidden', timeout=5000)
             return False
-        
+
     async def set_product_link(self, page: Page, product_link: str, product_title: str):
         """设置商品链接功能"""
         await page.wait_for_timeout(2000)  # 等待2秒
@@ -348,7 +348,7 @@ class DouYinVideo(object):
             ## 选择"购物车"选项
             await page.locator('[role="option"]:has-text("购物车")').click()
             douyin_logger.debug("[+] 成功选择'购物车'")
-            
+
             # 输入商品链接
             ## 等待商品链接输入框出现
             await page.wait_for_selector('input[placeholder="粘贴商品链接"]', timeout=5000)
@@ -356,7 +356,7 @@ class DouYinVideo(object):
             input_field = page.locator('input[placeholder="粘贴商品链接"]')
             await input_field.fill(product_link)
             douyin_logger.debug(f"[+] 已输入商品链接: {product_link}")
-            
+
             # 点击"添加链接"按钮
             add_button = page.locator('span:has-text("添加链接")')
             ## 检查按钮是否可用（没有disable类）
@@ -379,7 +379,7 @@ class DouYinVideo(object):
             # 填写商品短标题
             if not await self.handle_product_dialog(page, product_title):
                 return False
-            
+
             # 等待链接添加完成
             douyin_logger.debug("[+] 成功设置商品链接")
             return True

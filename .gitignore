@@ -169,7 +169,7 @@ bilibili_uploader/*.json
 tk_uploader/*.json
 
 # 配置文件
-conf.py
+#conf.py
 
 # 账号文件
 cookies
@@ -187,4 +187,4 @@ db/database.db
 cookiesFile
 uploadFile
 videoFile
-
+videos
