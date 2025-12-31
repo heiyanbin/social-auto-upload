@@ -2,6 +2,7 @@ import asyncio
 from pathlib import Path
 import shutil
 import os
+import sys
 
 from conf import BASE_DIR
 from uploader.douyin_uploader.main import douyin_setup, DouYinVideo
@@ -17,7 +18,16 @@ if __name__ == '__main__':
     # 获取文件夹中的所有文件
     files = list(folder_path.glob("*.mp4"))
     file_num = len(files)
-    publish_datetimes = generate_schedule_time_next_day(file_num, 2, daily_times=[7, 18])
+    if len(sys.argv) == 1:
+        start_days = 0
+    else:
+        start_days = int(sys.argv[1])
+
+    publish_datetimes = generate_schedule_time_next_day(
+        total_videos=file_num,
+        videos_per_day=2,
+        daily_times=[7, 18],
+        start_days=start_days)
     cookie_setup = asyncio.run(douyin_setup(account_file, handle=False))
     for index, file in enumerate(files):
         title, tags = get_title_and_hashtags(str(file))
