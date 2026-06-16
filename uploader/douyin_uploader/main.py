@@ -50,7 +50,8 @@ async def douyin_cookie_gen(account_file):
         options = {
             'headless': LOCAL_CHROME_HEADLESS
         }
-        # Make sure to run headed.
+        if LOCAL_CHROME_PATH:
+            options['executable_path'] = LOCAL_CHROME_PATH
         browser = await playwright.chromium.launch(**options)
         # Setup context however you like.
         context = await browser.new_context()  # Pass any options
