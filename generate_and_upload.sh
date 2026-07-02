@@ -1,5 +1,8 @@
 #!/bin/bash
 set -e
+SCRIPT_DIR=$(dirname "$0")
+cd "$SCRIPT_DIR"
+
 sh ../youtube_transcript/run.sh
 sh ../video_creator/batch_generate.sh
 
