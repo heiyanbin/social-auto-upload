@@ -45,5 +45,7 @@ if __name__ == '__main__':
 
         uploaded_dir = 'uploaded'
         os.makedirs(uploaded_dir, exist_ok=True)
-        shutil.move(file, uploaded_dir)
-        shutil.move(file.with_suffix('.txt'), uploaded_dir)
+        for f in [file, file.with_suffix('.txt')]:
+            dst = os.path.join(uploaded_dir, os.path.basename(f))
+            os.path.exists(dst) and os.remove(dst)
+            shutil.move(f, uploaded_dir)
